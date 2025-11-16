@@ -1,0 +1,15 @@
+@media print {
+  @page { margin: 0.5in; }
+  :root { color-scheme: light; }
+  body { background: #fff !important; color: #111 !important; font: 12pt/1.45 Georgia, 'Times New Roman', serif; }
+  .header, .controls, .nav { display: none !important; }
+  .container { max-width: none; margin: 0; padding: 0; }
+  .card, .day, .panel { background: #fff !important; border: 0 !important; box-shadow: none !important; }
+  .pill { display: none !important; }
+  .row { grid-template-columns: 160px 1fr !important; }
+  a { color: #111 !important; text-decoration: none; }
+  .muted { color: #444 !important; }
+  h2, h3 { page-break-after: avoid; }
+  .card, .section, .day { page-break-inside: avoid; }
+  body.recipe { font-size: 12.5pt; }
+}

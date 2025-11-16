@@ -1,0 +1,84 @@
+/* Week Navigation Styles */
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  padding-left: 16px;
+  border-left: 1px solid var(--stroke);
+}
+
+.week-select {
+  background: rgba(255,255,255,.08);
+  border: 1px solid var(--stroke);
+  color: #E5E7EB;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 180px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.week-select:hover {
+  background: rgba(255,255,255,.12);
+  border-color: var(--accent2);
+}
+
+.week-select:focus {
+  border-color: var(--accent1);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.week-nav-btn {
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--stroke);
+  color: #E5E7EB;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.week-nav-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,.12);
+  border-color: var(--accent2);
+  transform: translateY(-1px);
+}
+
+.week-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+  }
+  
+  .week-nav {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--stroke);
+    padding: 12px 0 0 0;
+    margin: 12px 0 0 0;
+    justify-content: center;
+  }
+  
+  .week-select {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .week-nav-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}

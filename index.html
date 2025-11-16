@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Mise en Place · Weekly Plan</title>
+<link rel="stylesheet" href="./styles/theme.css"/>
+<link rel="stylesheet" href="./styles/week-nav.css"/>
+<link rel="stylesheet" href="./styles/print.css" media="print"/>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">Mise en Place</div>
+    <nav class="nav">
+      <a href="./index.html">Weekly</a>
+      <a href="./pages/recipes.html">Recipes</a>
+      <a href="./pages/shopping.html">Shopping</a>
+      <a href="./pages/prep.html">Prep</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <div class="controls">
+      <button class="btn" data-action="all">All</button>
+      <button class="btn" data-day="sunday">Sun</button>
+      <button class="btn" data-day="monday">Mon</button>
+      <button class="btn" data-day="tuesday">Tue</button>
+      <button class="btn" data-day="wednesday">Wed</button>
+      <button class="btn" data-day="thursday">Thu</button>
+      <button class="btn" data-day="friday">Fri</button>
+      <button class="btn" data-day="saturday">Sat</button>
+      <button class="btn" data-action="today" title="Jump to today">Today</button>
+    </div>
+    <div class="day-grid" id="day-grid"></div>
+  </div>
+
+  <script type="module" src="./js/app.js"></script>
+  <script src="./data/weeks.js"></script>
+  <script src="./js/week-loader.js"></script>
+  <script type="module">
+    import { renderAll, renderFocus, todayKey } from './js/components.js';
+    const grid = document.querySelector('#day-grid');
+
+    function setup(){
+      // Focus by default (today)
+      const today = todayKey() || 'sunday';
+      renderFocus(grid, window.planData, today);
+
+      document.querySelectorAll('.btn').forEach(btn=>{
+        if(btn.dataset.action==='all'){
+          btn.addEventListener('click', ()=> renderAll(grid, window.planData));
+        }else if(btn.dataset.action==='today'){
+          btn.addEventListener('click', ()=> renderFocus(grid, window.planData, todayKey() || 'sunday'));
+        }else if(btn.dataset.day){
+          btn.addEventListener('click', ()=> renderFocus(grid, window.planData, btn.dataset.day));
+        }
+      });
+    }
+    
+    // Wait for plan data to be loaded by week-loader.js
+    window.onPlanDataLoaded = setup;
+  </script>
+</body>
+</html>

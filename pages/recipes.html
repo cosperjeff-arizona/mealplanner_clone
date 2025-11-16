@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Mise en Place · Recipes</title>
+<link rel="stylesheet" href="../styles/theme.css"/>
+<link rel="stylesheet" href="../styles/week-nav.css"/>
+<link rel="stylesheet" href="../styles/print.css" media="print"/>
+<style>
+.grid{ display:grid; gap:14px; grid-template-columns: repeat( auto-fit, minmax(320px, 1fr) ); }
+.item{ background: var(--panel); border:1px solid var(--stroke); border-radius: var(--radius); box-shadow: var(--glow); padding:14px; }
+.item header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.daychip{ font-weight:700; }
+.item a{ font-weight:600; }
+.summary{ color: var(--muted); margin-top:4px; }
+.search{ display:flex; gap:8px; margin-bottom:12px; }
+.search input{ flex:1; background:rgba(255,255,255,.06); border:1px solid var(--stroke); color:#E5E7EB; padding:8px 10px; border-radius:10px; }
+</style>
+</head>
+<body class="recipe-list">
+  <div class="header">
+    <div class="brand">Mise en Place</div>
+    <nav class="nav">
+      <a href="../index.html">Weekly</a>
+      <a href="./recipes.html">Recipes</a>
+      <a href="./shopping.html">Shopping</a>
+      <a href="./prep.html">Prep</a>
+    </nav>
+  </div>
+  <div class="container">
+    <div class="search">
+      <input id="q" placeholder="Search recipe titles or notes..."/>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <script src="../data/weeks.js"></script>
+  <script src="../js/week-loader.js"></script>
+  <script>
+    const order=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    const cap = s => s? s[0].toUpperCase()+s.slice(1):'';
+    function card(d, meal){
+      const r = meal.recipe || null;
+      const title = meal.title || (r && r.title) || 'Untitled';
+      const summary = (r && (r.summary||r.notes)) || '';
+      const href = `./recipe-${d}.html`;
+      return `<article class="item">
+        <header><div class="daychip">${cap(d)}</div><a href="${href}">Open</a></header>
+        <div class="title"><a href="${href}">${title}</a></div>
+        ${summary? `<div class="summary">${summary}</div>`:''}
+      </article>`;
+    }
+    function render(filter=''){
+      const grid = document.querySelector('#grid');
+      const q = filter.trim().toLowerCase();
+      const items = order.map(d => {
+        const meal = (window.planData.meals||{})[d] || {};
+        if(!meal.title && !(meal.recipe)) return '';
+        const blob = JSON.stringify(meal).toLowerCase();
+        if(q && !blob.includes(q)) return '';
+        return card(d, meal);
+      }).join('');
+      grid.innerHTML = items || '<p class="muted">No recipes match your search.</p>';
+    }
+    
+    // Wait for plan data to be loaded
+    window.onPlanDataLoaded = function() {
+      render();
+      document.querySelector('#q').addEventListener('input', (e)=> render(e.target.value));
+    };
+  </script>
+</body>
+</html>

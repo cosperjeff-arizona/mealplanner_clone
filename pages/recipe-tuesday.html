@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Mise en Place · Tuesday Recipe</title>
+<link rel="stylesheet" href="../styles/theme.css"/>
+<link rel="stylesheet" href="../styles/week-nav.css"/>
+<link rel="stylesheet" href="../styles/print.css" media="print"/>
+</head>
+<body class="recipe">
+  <div class="header">
+    <div class="brand">Mise en Place</div>
+    <nav class="nav">
+      <a href="../index.html">Weekly</a>
+      <a href="./recipes.html">Recipes</a>
+      <a href="./shopping.html">Shopping</a>
+      <a href="./prep.html">Prep</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>Tuesday Dinner</h2>
+      <div id="recipe"></div>
+    </div>
+    <div class="card">
+      <h2>Daily Fuel</h2>
+      <div class="day-grid focus" id="mom-card"></div>
+    </div>
+  </div>
+
+  <script src="../data/weeks.js"></script>
+  <script src="../js/week-loader.js"></script>
+  <script type="module">
+    import { dayCardHTML, renderRecipeHTML } from '../js/components.js';
+    const d = 'tuesday';
+    
+    function renderPage() {
+      const meal = (window.planData.meals||{})[d] || {};
+      const recipe = meal.recipe || null;
+
+      // Render full recipe (title, times, ingredients, steps, equipment)
+      document.querySelector('#recipe').innerHTML = renderRecipeHTML(recipe);
+
+      // Render the Daily Fuel day card below for context
+      document.querySelector('#mom-card').innerHTML = dayCardHTML(d, window.planData);
+    }
+    
+    // Wait for plan data to be loaded
+    window.onPlanDataLoaded = renderPage;
+  </script>
+</body>
+</html>
