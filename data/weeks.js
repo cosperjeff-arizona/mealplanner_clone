@@ -33,7 +33,14 @@ const availableWeeks = [
     file: "plan-2025-11-11.js",
     startDate: "2025-11-11"
   }
+    {
+    id: "2025-11-16",
+    label: "November 16, 2025",
+    file: "plan-2025-11-16.js",
+    startDate: "2025-11-16"
+  }
 ];
 
 // Default to the most recent week
+
 const defaultWeek = availableWeeks[availableWeeks.length - 1].id;
